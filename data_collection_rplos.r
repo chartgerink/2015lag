@@ -1,8 +1,10 @@
+setwd("C:/Users/chjh/Dropbox/projects/2015lag")
+
 if(!require(rplos)){install.packages('rplos')}
 library(rplos)
 
 # The query
-que <- "*.*"
+que <- "*:*"
 
 # The selection in PLOS
 sel <- list('cross_published_journal_key:PLoSONE',
@@ -19,7 +21,8 @@ ids <- c("accepted_date",
   "editor",
   "pagecount",
   "publication_date",
-  "received_date")
+  "received_date",
+  "timestamp")
 
 # Nr. of hits to set as limit when collecting data.
 hits <- searchplos(q = que,
