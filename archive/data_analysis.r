@@ -3,6 +3,10 @@ setwd("D:/Dropbox/projects/2015lag")
 # Dependencies
 library(stringr)
 library(ggplot2)
+library(knitr)
+
+# Convert RMarkdown to regular markdown.
+# knit(input="archive/README.rmd", output = "README.md")
 
 # Read in data
 dat <- read.csv(file = 'archive/20150514collected_data.csv')
@@ -63,13 +67,14 @@ dat <- dat[!dat$accepted < dat$submitted, ]
 calc_days <- Vectorize(function(a, b) 
   length(seq(a, b, "days"))) 
 
-submitted_accepted <- calc_days(dat$submitted, dat$accepted)
-save(submitted_accepted, file = "archive/submitted_accepted")
-
-accepted_published <- calc_days(dat$accepted, dat$ published)
-save(accepted_published, file = "archive/accepted_published")
+# submitted_accepted <- calc_days(dat$submitted, dat$accepted)
+# save(submitted_accepted, file = "archive/submitted_accepted")
+# 
+# accepted_published <- calc_days(dat$accepted, dat$ published)
+# save(accepted_published, file = "archive/accepted_published")
 
 # Load the objects created in the commented out code above
 # Decreases runtime
 load("archive/submitted_accepted")
 load("archive/accepted_published")
+
