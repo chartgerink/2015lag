@@ -1,4 +1,4 @@
-# Publication lag in academia: A case study of the Public Library of Science (PLOS)
+# Publication lag: A case study of the Public Library of Science (PLOS)
 
 This repository is linked to [this](https://www.authorea.com/users/2013/articles/36067/_show_article) Authorea manuscript. This README file contains the main analyses including `R` code, and is included in a separate file in the `archive` folder called `data_analysis.r`. This README document provides the framework for the manuscript.
 
@@ -58,7 +58,7 @@ dat <- dat[!is.na(dat$submitted) &
              !is.na(dat$published), ]
 ```
 
-The data was cleaned in several steps, but the data were also inspected for some illogical dates, where the paper was published before it was accepted (i.e., `{r} sum(dat$published < dat$accepted)` cases) or accepted before submitted (i.e., `{r} sum(dat$accepted < dat$submitted` cases). Below I extend on this and give the DOIs for those papers
+The data was cleaned in several steps, but the data were also inspected for some illogical dates, where the paper was published before it was accepted (i.e., `sum(dat$published < dat$accepted)` cases) or accepted before submitted (i.e., `sum(dat$accepted < dat$submitted` cases). Below I extend on this and give the DOIs for those papers
 
 ```{r}
 # Checking for illogical dates
