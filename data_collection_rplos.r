@@ -40,4 +40,4 @@ search_results <- searchplos(q = que,
                              start=0,
                              limit=hits)
 
-write.csv(search_results, '20150514scollected_data.csv')
+write.csv(search_results, '20150514collected_data.csv')
