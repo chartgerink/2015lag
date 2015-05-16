@@ -1,6 +1,4 @@
----
-title: "Publication lag: A case study of the Public Library of Science (PLOS)"
-output: html_document
+# Publication lag: A case study of the Public Library of Science (PLOS)
 ---
 This repository is linked to [this](https://www.authorea.com/users/2013/articles/36067/_show_article) Authorea manuscript. 
 
