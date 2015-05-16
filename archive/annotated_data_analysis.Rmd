@@ -228,10 +228,10 @@ Before running the regression models, let me recapitulate what the previous anal
 Additionally, I will mean center the predictor variables `authors` and `pages` so intercept estimates are meaningful. All regression models will be Poisson regression, considering that number of days in each part of publication cycle is a count variable.
 
 ```{r}
-authors.centred <- dat$authors - mean(dat$authors, na.rm = TRUE)
-authors.centred.sq <- authors.centred^2
-pages.centred <- as.numeric(dat$data.pagecount) - mean(as.numeric(dat$data.pagecount), na.rm = TRUE)
-pages.centred.sq <- pages.centred^2
+dat$authors.centred <- as.numeric(dat$authors - mean(dat$authors, na.rm = TRUE))
+dat$authors.centred.sq <- authors.centred^2
+dat$pages.centred <- as.numeric(dat$data.pagecount) - mean(as.numeric(dat$data.pagecount), na.rm = TRUE)
+dat$pages.centred.sq <- pages.centred^2
 
 x <- glm(received_accepted ~ 
            authors.centred +
@@ -239,44 +239,11 @@ x <- glm(received_accepted ~
            pages.centred + 
            pages.centred.sq +
            as.factor(year),
-         data = dat,
+         data = dat[dat$data.journal == unique(dat$data.journal)[1],],
          family = "poisson")
 
 options(scipen = 5)
 summary(x)
 ```
 
-The intercept estimate is much to low for the average case in the data, indicating something might be going on in the modelling process. Some assumption might not hold for this data. Let's investigate.
-
-### Investigating potential modeling issues
-```{r, echo = FALSE, fig.height = 5}
-plot(density(dat$received_accepted), main = "Distribution of days in review process")
-lines(density(rpois(100000, x$coefficients[1])), lty = 3)
-```
-
-The above plot shows the distribution in the data (thin line) and the distribution estimated by the model (wide line). This clearly indicates that the variance is underestimated in the model. 
-
-Note that, in Poisson models, the mean equals the variance (i.e., $\mu=\sigma^2=\lambda$; dispersion = 1). If we inspect the days in the review process, its mean is `r round(mean(dat$received_accepted), 3)` and its variance is `r round(var(dat$received_accepted), 3)`. In other words, the dispersion in the actual data is `r round(var(dat$received_accepted)/mean(dat$received_accepted), 3)`, which indicates severe overdispersion. If we input `family = "quasipoisson"` this solves the overdispersion, as it now is incorporated into the model. Doing this revealed to me that overdispersion only affects the standard errors of the estimates, so back to square one.
-
-```{r}
-plot(received_accepted)
-
-x <- glm(received_accepted ~ 
-        authors.centred +
-        authors.centred.sq + 
-        pages.centred + 
-        pages.centred.sq +
-        as.factor(year),
-    data = dat)
-
-int <- as.numeric(x$coefficients[1])
-auth <- as.numeric(x$coefficients[2])
-auth.sq <- as.numeric(x$coefficients[3])
-
-curve(int +
-        auth * x +
-        auth.sq * x,
-      add = TRUE,
-      from = 1, to = 140000, col = "red")
-x$coefficients
-```
+The intercept estimate indicates that the average publication takes `r round(exp(x$coefficients[1]), 3)` days in the review process.

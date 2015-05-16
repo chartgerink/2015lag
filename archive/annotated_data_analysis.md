@@ -343,10 +343,10 @@ Additionally, I will mean center the predictor variables `authors` and `pages` s
 
 
 ```r
-authors.centred <- dat$authors - mean(dat$authors, na.rm = TRUE)
-authors.centred.sq <- authors.centred^2
-pages.centred <- as.numeric(dat$data.pagecount) - mean(as.numeric(dat$data.pagecount), na.rm = TRUE)
-pages.centred.sq <- pages.centred^2
+dat$authors.centred <- as.numeric(dat$authors - mean(dat$authors, na.rm = TRUE))
+dat$authors.centred.sq <- authors.centred^2
+dat$pages.centred <- as.numeric(dat$data.pagecount) - mean(as.numeric(dat$data.pagecount), na.rm = TRUE)
+dat$pages.centred.sq <- pages.centred^2
 
 x <- glm(received_accepted ~ 
            authors.centred +
@@ -354,7 +354,7 @@ x <- glm(received_accepted ~
            pages.centred + 
            pages.centred.sq +
            as.factor(year),
-         data = dat,
+         data = dat[dat$data.journal == unique(dat$data.journal)[1],],
          family = "poisson")
 
 options(scipen = 5)
@@ -366,92 +366,39 @@ summary(x)
 ## Call:
 ## glm(formula = received_accepted ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year), family = "poisson", 
-##     data = dat)
+##     data = dat[dat$data.journal == unique(dat$data.journal)[1], 
+##         ])
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -16.003   -4.750   -1.497    2.518   86.170  
+## -15.865   -4.656   -1.507    2.380   86.432  
 ## 
 ## Coefficients:
 ##                          Estimate    Std. Error z value Pr(>|z|)    
-## (Intercept)          4.1832660485  0.0232190092 180.166   <2e-16 ***
-## authors.centred      0.0017108741  0.0000581236  29.435   <2e-16 ***
-## authors.centred.sq  -0.0000059870  0.0000006749  -8.872   <2e-16 ***
-## pages.centred       -0.0009987810  0.0000143412 -69.644   <2e-16 ***
-## pages.centred.sq    -0.0001068563  0.0000013553 -78.842   <2e-16 ***
-## as.factor(year)2004  0.6802956889  0.0241931620  28.119   <2e-16 ***
-## as.factor(year)2005  0.7464103885  0.0236135034  31.609   <2e-16 ***
-## as.factor(year)2006  0.7018668089  0.0233868816  30.011   <2e-16 ***
-## as.factor(year)2007  0.5579958401  0.0232832534  23.966   <2e-16 ***
-## as.factor(year)2008  0.6295166288  0.0232384557  27.089   <2e-16 ***
-## as.factor(year)2009  0.6024306529  0.0232237338  25.940   <2e-16 ***
-## as.factor(year)2010  0.6665509802  0.0232125300  28.715   <2e-16 ***
-## as.factor(year)2011  0.6609368381  0.0232028451  28.485   <2e-16 ***
-## as.factor(year)2012  0.7419988749  0.0232000649  31.983   <2e-16 ***
-## as.factor(year)2013  0.7437852476  0.0231950227  32.067   <2e-16 ***
-## as.factor(year)2014  0.7797326463  0.0231966648  33.614   <2e-16 ***
-## as.factor(year)2015  0.8565695350  0.0232115145  36.903   <2e-16 ***
+## (Intercept)          3.6427879668  0.0141154062 258.072  < 2e-16 ***
+## authors.centred      0.0005002302  0.0000696875   7.178 7.06e-13 ***
+## authors.centred.sq  -0.0000005881  0.0000012288  -0.479    0.632    
+## pages.centred       -0.0008501991  0.0000154919 -54.880  < 2e-16 ***
+## pages.centred.sq    -0.0000445039  0.0000014955 -29.758  < 2e-16 ***
+## as.factor(year)2007  0.7035485911  0.0144677499  48.629  < 2e-16 ***
+## as.factor(year)2008  0.9253651227  0.0142255981  65.049  < 2e-16 ***
+## as.factor(year)2009  0.9534771925  0.0141700094  67.288  < 2e-16 ***
+## as.factor(year)2010  1.0560690485  0.0141358300  74.709  < 2e-16 ***
+## as.factor(year)2011  1.1157804118  0.0141092582  79.081  < 2e-16 ***
+## as.factor(year)2012  1.2241281041  0.0141027586  86.801  < 2e-16 ***
+## as.factor(year)2013  1.2174888520  0.0140958605  86.372  < 2e-16 ***
+## as.factor(year)2014  1.2670928198  0.0140953974  89.894  < 2e-16 ***
+## as.factor(year)2015  1.3730553890  0.0141137364  97.285  < 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for poisson family taken to be 1)
 ## 
-##     Null deviance: 5529922  on 135421  degrees of freedom
-## Residual deviance: 5392693  on 135405  degrees of freedom
-## AIC: 6276676
+##     Null deviance: 4762596  on 117550  degrees of freedom
+## Residual deviance: 4560079  on 117537  degrees of freedom
+## AIC: 5323216
 ## 
 ## Number of Fisher Scoring iterations: 5
 ```
 
-The intercept estimate is much to low for the average case in the data, indicating something might be going on in the modelling process. Some assumption might not hold for this data. Let's investigate.
-
-### Investigating potential modeling issues
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
-
-The above plot shows the distribution in the data (thin line) and the distribution estimated by the model (wide line). This clearly indicates that the variance is underestimated in the model. 
-
-Note that, in Poisson models, the mean equals the variance (i.e., $\mu=\sigma^2=\lambda$; dispersion = 1). If we inspect the days in the review process, its mean is 127.918 and its variance is 6329.317. In other words, the dispersion in the actual data is 49.479, which indicates severe overdispersion. If we input `family = "quasipoisson"` this solves the overdispersion, as it now is incorporated into the model. Doing this revealed to me that overdispersion only affects the standard errors of the estimates, so back to square one.
-
-
-```r
-plot(received_accepted)
-
-x <- glm(received_accepted ~ 
-        authors.centred +
-        authors.centred.sq + 
-        pages.centred + 
-        pages.centred.sq +
-        as.factor(year),
-    data = dat)
-
-int <- as.numeric(x$coefficients[1])
-auth <- as.numeric(x$coefficients[2])
-auth.sq <- as.numeric(x$coefficients[3])
-
-curve(int +
-        auth * x +
-        auth.sq * x,
-      add = TRUE,
-      from = 1, to = 140000, col = "red")
-```
-
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
-
-```r
-x$coefficients
-```
-
-```
-##         (Intercept)     authors.centred  authors.centred.sq 
-##       75.5575883548        0.2203535393       -0.0007234017 
-##       pages.centred    pages.centred.sq as.factor(year)2004 
-##       -0.1223823975       -0.0136653075       54.9631639436 
-## as.factor(year)2005 as.factor(year)2006 as.factor(year)2007 
-##       62.5524072995       56.9847324060       40.3297721431 
-## as.factor(year)2008 as.factor(year)2009 as.factor(year)2010 
-##       48.2664237775       45.1361135491       52.6018252564 
-## as.factor(year)2011 as.factor(year)2012 as.factor(year)2013 
-##       51.9535090914       61.9667380274       62.1995966301 
-## as.factor(year)2014 as.factor(year)2015 
-##       66.9367135973       78.4551859146
-```
+The intercept estimate indicates that the average publication takes 38.198 days in the review process.
