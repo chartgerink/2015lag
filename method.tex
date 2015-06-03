@@ -1,0 +1,8 @@
+\section*{Method}
+Article level data was collected from all PLoS journals with the `rplos` package \cite[v0.4.7][]{rplos} in `R` \cite[v3.2.0][]{rcran}. The dataset used in this paper was collected on XX June, 2015 and is available via `https://osf.io/53sn9/` together with annotated data analyses. The full publication cycle was split into the review process and the production process for the analyses.
+
+Both elements of the publication cycle were modelled with Poisson regression models, because number of days is a count variable. Such a Poisson model assumes equal mean and variance (i.e., dispersion $=1$), but the data showed overdispersion (i.e., $>1$). Overdispersion was modelled with quasi-poisson estimation.
+
+Model predictors are year of publication, presence of competing interests, number of pages, and number of authors. The reasoning behind these predictors was as follows. Competing interests could increase publication time when these are disputed by editors and authors are asked to explain. The number of pages could increase publication time due to longer reviews in both time taken to review and the length of the review in content. The number of authors could influence the time it takes for authors to reach consensus on the response letter. 
+
+Squared predictors were included for number of pages and number of authors. Scatterplot inspection of the predictors with the publication times indicated non-linearity, which is why these squared predictors were included. The number of authors and the number of pages were mean centred to provide meaningful intercept estimates.

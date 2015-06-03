@@ -1,1 +1,2 @@
-untitled.tex
+introduction.tex
+method.tex

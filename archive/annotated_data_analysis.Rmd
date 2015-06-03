@@ -1,8 +1,8 @@
 ---
 title: "Annotated data analysis"
 output: 
-  html_document:
-  toc: true
+html_document:
+toc: true
 ---
 
 ## Data cleaning
@@ -14,6 +14,7 @@ library(stringr)
 library(ggplot2)
 library(knitr)
 library(plyr)
+source('multiplot.r')
 
 # Read in data
 dat <- read.csv(file = '20150514collected_data.csv')
@@ -118,14 +119,14 @@ Prior to data analysis I stress once again that the data *is* the population of 
 
 ### Descriptives
 The median full publication cycle is `r median(dat$received_published)` days, with the majority of this being the review process (i.e., `r median(dat$received_accepted)` days) and not the production process (i.e., `r median(dat$accepted_published)` days). When we split this per journal, we see the following publication cycle.
-```{r, echo = FALSE}
+```{r, echo = TRUE}
 x <- ddply(.data = dat, .(data.journal),
            .fun = function(x) summary(x$received_published))
 x[order(x$Median),]
 
 ```
 which, when split up into the review process and production process looks as follows
-```{r, echo = FALSE}
+```{r, echo = TRUE}
 x <- ddply(.data = dat, .(data.journal),
            .fun = function(x) summary(x$received_accepted))
 x[order(x$Median),]
@@ -136,50 +137,42 @@ x[order(x$Median),]
 ```
 This indicates that the publication cycle is shortest for PLOS ONE, and longest for PLOS Medicine. This could be due to efficiency in handling more publications (i.e., ONE: `r table(dat$data.journal)[7]`; Med.: `r table(dat$data.journal)[5]`), but could also represent selectivity. PLOS ONE prouds itself of selecting papers only on scientific rigor and not on results, whereas PLOS medicine does include selectivity in its criteria for publication (e.g., originality of research; see their guidelines [here](http://journals.plos.org/plosmedicine/s/journal-information)).
 
-```{r, fig.height = 10, echo = FALSE}
+```{r, fig.height = 10, echo = TRUE}
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$received_published))
 
-par(mfrow = c(4, 2))
-for(journal in unique(x$data.journal)){
-  sel <- x[x$data.journal == journal, ]
-  plot(x = min(sel$year):max(sel$year),
-       y = sel$Median,
-       xlab = "Year",
-       ylab = "Median days",
-       main = journal)
-  }
+ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(list(title = "Full publication cycle", x = "Median days", y = "Years")) +
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225))
 ```
 
 These plots indicate that publication cycles have increased in length, except for Neglected Tropical Diseases, which shows a decreasing trend. Clinical trials was only published in 2006 and 2007, after which it was discontinued and rolled into PLOS ONE. Considering that the review process and production process are substantively different, it makes sense to investigate whether these trends differ across these parts of the publication cycle.
 
-```{r, echo = FALSE, fig.height = 10}
+```{r, echo = TRUE, fig.height = 10}
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$received_accepted))
 
-par(mfrow = c(4, 2))
-for(journal in unique(x$data.journal)){
-  sel <- x[x$data.journal == journal, ]
-  plot(x = min(sel$year):max(sel$year),
-       y = sel$Median,
-       xlab = "Year",
-       ylab = "Median days",
-       main = journal)
-  }
+ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(list(title = "Review process", x = "Median days", y = "Years")) +
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225))
+
 ```
 
 The trends for the review process seem highly similar to the overall. Considering that the review process takes up the largest part of the entire publication cycle (i.e., `r median(dat$received_accepted)` days of the full `r median(dat$  received_published)` days), it makes sense that the trends for the full publication cycle are mostly made up of the trends in the review process.
 
-```{r, echo = FALSE, fig.height = 10}
+```{r, echo = TRUE, fig.height = 10}
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$accepted_published))
 
-par(mfrow = c(4, 2))
-for(journal in unique(x$data.journal)){
-  sel <- x[x$data.journal == journal, ]
-  plot(x = min(sel$year):max(sel$year),
-       y = sel$Median,
-       xlab = "Year",
-       ylab = "Median days",
-       main = journal)
-  }
+ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(list(title = "Production process", x = "Median days", y = "Years")) +
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225))
 ```
 
 However, when we look at the production process, we see that the trends are relatively stable or decreasing. This indicates that some of the PLOS journals have increased the efficiency of the production process, whereas others have not. 
@@ -202,7 +195,7 @@ d <- data.frame(receive_accept = as.numeric(received_accepted),
 cor(d)^2
 ```
 
-Here we see that squared correlations between the days from receive to accept and receive to published are high. This is logical because the majority of the publication cycle *is* the review process. The publication process, on the other hand, has only a medium correlation with the entire publication cycle.
+Here we see that squared correlations between the days from receive to accept and receive to published are high. This is logical because the majority of the publication cycle *is* the review process. The production process, on the other hand, has only a medium correlation with the entire publication cycle.
 
 Other squared correlations are all small. The largest uncontrolled effect is 1% explained variance. Controlling for other explanatory variables is likely to have only little effect, because of low squared correlations between the explanatory variables.
 
@@ -211,7 +204,7 @@ This indicates the regression analyses will most likely indicate that the effect
 ### Linearity
 Because correlations rest on the assumption of linearity, let us check the linearity to ensure that we are not jumping the gun with the previous section (should actually do this before but I forgot...)
 
-```{r, echo = FALSE, fig.height = 10}
+```{r, echo = TRUE, fig.height = 10}
 pairs(x = d[,-6])
 ```
 
@@ -225,25 +218,157 @@ Before running the regression models, let me recapitulate what the previous anal
 3. Linear and curvilinear estimates for predictor variables.
 4. Check whether overall results hold for journals separately
 
-Additionally, I will mean center the predictor variables `authors` and `pages` so intercept estimates are meaningful. All regression models will be Poisson regression, considering that number of days in each part of publication cycle is a count variable.
+Additionally, I will mean center the predictor variables `authors` and `pages` so intercept estimates are meaningful. All regression models will be Poisson regression, considering that number of days in each part of publication cycle is a count variable. Due to overdispersion in the data, Quasi-ML estimation will be used.
 
-```{r}
+```{r, fig.height = 10}
 dat$authors.centred <- as.numeric(dat$authors - mean(dat$authors, na.rm = TRUE))
-dat$authors.centred.sq <- authors.centred^2
+dat$authors.centred.sq <- dat$authors.centred^2
 dat$pages.centred <- as.numeric(dat$data.pagecount) - mean(as.numeric(dat$data.pagecount), na.rm = TRUE)
-dat$pages.centred.sq <- pages.centred^2
+dat$pages.centred.sq <- dat$pages.centred^2
 
-x <- glm(received_accepted ~ 
-           authors.centred +
-           authors.centred.sq + 
-           pages.centred + 
-           pages.centred.sq +
-           as.factor(year),
-         data = dat[dat$data.journal == unique(dat$data.journal)[1],],
-         family = "poisson")
+review_process <- glm(received_accepted ~ 
+                        authors.centred +
+                        authors.centred.sq + 
+                        pages.centred + 
+                        pages.centred.sq +
+                        as.factor(year) + 
+                        as.factor(coi),
+                      data = dat,
+                      family = "quasipoisson")
 
 options(scipen = 5)
-summary(x)
+summary(review_process)
+
+reviewdays <- exp(review_process$coefficients[1])
+i = 2
+for(j in 6:17){
+  reviewdays[i] <- exp(review_process$coefficients[1] +
+                         review_process$coefficients[j])
+  i = i + 1}
+
+production_process <- glm(accepted_published ~ 
+                            authors.centred +
+                            authors.centred.sq + 
+                            pages.centred + 
+                            pages.centred.sq +
+                            as.factor(year) +
+                            as.factor(coi),
+                          data = dat,
+                          family = "quasipoisson")
+
+options(scipen = 5)
+summary(production_process)
+
+productiondays <- exp(production_process$coefficients[1])
+i = 2
+for(j in 6:17){
+  productiondays[i] <- exp(production_process$coefficients[1] +
+                             production_process$coefficients[j])
+  i = i + 1}
+
+plotdf <- data.frame(years = 2003:2015, revdays = reviewdays,
+                     proddays = productiondays)
+
+p1 <- ggplot(plotdf, aes(x = years, y = revdays)) +
+  geom_point() + 
+  stat_smooth(method = "loess", se = FALSE) +
+  labs(list(x = "Year", y = "Days to review"))
+
+p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
+  geom_point() + 
+  stat_smooth(method = "loess", se = FALSE) +
+  labs(list(x = "Year", y = "Production days"))
+
+multiplot(p1, p2)
 ```
 
-The intercept estimate indicates that the average publication takes `r round(exp(x$coefficients[1]), 3)` days in the review process.
+
+
+```{r, fig.height = 15, echo = TRUE}
+x <- ddply(dat, .(year, data.journal), function(x){
+  data.frame(revdays = x$received_accepted,
+             proddays = x$accepted_published,
+             year = x$year,
+             coi = x$coi,
+             authors.centred = x$authors.centred,
+             authors.centred.sq = x$authors.centred.sq,
+             pages.centred = x$pages.centred,
+             pages.centred.sq = x$pages.centred.sq)
+  })
+
+plotdf <- data.frame(data.journal = NULL,
+                     years = NULL,
+                     revdays = NULL,
+                     proddays = NULL)
+
+for(journal in unique(x$data.journal)){
+  # Selecting the data for one journal
+  sel <- x[x$data.journal == journal, ]
+  
+  # Estimating the model for the journal in the rev process
+  review_process <- glm(revdays ~ 
+                          authors.centred +
+                          authors.centred.sq + 
+                          pages.centred + 
+                          pages.centred.sq +
+                          as.factor(coi) +
+                          as.factor(year),
+                        data = sel,
+                        family = "quasipoisson")
+  print(summary(review_process))
+  
+  # Calculating the estimated days of review in the model
+  reviewdays <- exp(review_process$coefficients[1])
+  i = 2
+  for(j in 7 : length(review_process$coefficients)){
+    reviewdays[i] <- exp(review_process$coefficients[1] +
+                           review_process$coefficients[j])
+    i = i + 1}
+  
+  # Estimating the days of production in the model
+  production_process <- glm(proddays ~ 
+                              authors.centred +
+                              authors.centred.sq + 
+                              pages.centred + 
+                              pages.centred.sq +
+                              as.factor(year) +
+                              as.factor(coi),
+                            data = sel,
+                            family = "quasipoisson")
+  
+  print(summary(production_process))
+  # Calculating the estimates per year
+  productiondays <- exp(production_process$coefficients[1])
+  i = 2
+  for(j in 7 : length(production_process$coefficients)){
+    productiondays[i] <- exp(production_process$coefficients[1] +
+                               production_process$coefficients[j])
+    i = i + 1}
+  
+  temp <- data.frame(data.journal = journal,
+                     years = unique(sel$year),
+                     revdays = reviewdays,
+                     proddays = productiondays)
+  
+  # Saving out the data
+  plotdf <- rbind(plotdf, temp)
+  }
+
+plotdf$data.journal <- as.factor(plotdf$data.journal)
+
+p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "lm", se = FALSE) + 
+  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225))
+
+p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "lm", se = FALSE) + 
+  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225))
+
+multiplot(p1, p2)
+```
