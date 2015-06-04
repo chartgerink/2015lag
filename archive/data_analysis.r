@@ -8,7 +8,7 @@ library(plyr)
 source('multiplot.r')
 
 # Read in data
-dat <- read.csv(file = '20150514collected_data.csv')
+dat <- read.csv(file = '20150604collected_data.csv')
 
 # Assimilate journal naming
 # See discrepancies
@@ -72,9 +72,18 @@ dat <- dat[!dat$published < dat$accepted, ]
 as.matrix(dat$data.id[dat$accepted < dat$received])
 dat <- dat[!dat$accepted < dat$received, ]
 
+# Selecting out those papers which have equivalent
+# received - accepted
+as.matrix(dat$data.id[dat$received == dat$accepted])
+dat <- dat[!dat$received == dat$accepted, ]
+
+print(dim(dat)[1])
+print(table(dat$data.journal))
+
 # Calculating the days between received, accepted, and published
 calc_days <- Vectorize(function(a, b) 
-  length(seq(a, b, "days"))) 
+  length(seq(a, b, "days")) - 1)
+# Minus 1 because otherwise count will be 1 for the same date
 
 # received_accepted <- calc_days(dat$received, dat$accepted)
 # save(received_accepted, file = "received_accepted")
@@ -93,6 +102,10 @@ load("accepted_published")
 dat$accepted_published <- accepted_published
 load("received_published")
 dat$received_published <- received_published
+
+median(dat$received_published)
+median(dat$received_accepted)
+median(dat$accepted_published) 
 
 x <- ddply(.data = dat, .(data.journal),
            .fun = function(x) summary(x$received_published))
@@ -117,21 +130,30 @@ ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
 
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$received_accepted))
 
-ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
+p1 <- ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) +
   labs(list(title = "Review process", x = "Median days", y = "Years")) +
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225))
+  ylim(c(0, 225)) + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks=2003:2015)
 
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$accepted_published))
 
-ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
+p2 <- ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) +
   labs(list(title = "Production process", x = "Median days", y = "Years")) +
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225))
+  ylim(c(0, 225)) + 
+  theme(legend.position = "top") + 
+  scale_x_continuous(breaks = 2003:2015)
+
+pdf('observed review and production times.pdf',
+    width = 7.5, height = 8.75)
+multiplot(p1, p2 + guides(colour = guide_legend(nrow = 3)))
+dev.off()
 
 d <- data.frame(receive_accept = as.numeric(received_accepted),
                 accept_publish = as.numeric(accepted_published),
@@ -139,6 +161,7 @@ d <- data.frame(receive_accept = as.numeric(received_accepted),
                 authors = as.numeric(dat$authors),
                 pages = as.numeric(dat$data.pagecount), 
                 years = dat$year)
+cor(d)
 cor(d)^2
 
 pairs(x = d[,-6])
@@ -159,7 +182,7 @@ review_process <- glm(received_accepted ~
                       family = "quasipoisson")
 
 options(scipen = 5)
-summary(review_process)
+print(review_process)
 
 reviewdays <- exp(review_process$coefficients[1])
 i = 2
@@ -179,7 +202,7 @@ production_process <- glm(accepted_published ~
                           family = "quasipoisson")
 
 options(scipen = 5)
-summary(production_process)
+print(production_process)
 
 productiondays <- exp(production_process$coefficients[1])
 i = 2
@@ -194,14 +217,22 @@ plotdf <- data.frame(years = 2003:2015, revdays = reviewdays,
 p1 <- ggplot(plotdf, aes(x = years, y = revdays)) +
   geom_point() + 
   stat_smooth(method = "loess", se = FALSE) +
-  labs(list(x = "Year", y = "Days to review"))
+  labs(list(x = "Year", y = "Estimated review time")) + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = 2003:2015)
 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
   geom_point() + 
   stat_smooth(method = "loess", se = FALSE) +
-  labs(list(x = "Year", y = "Production days"))
+  labs(list(x = "Year", y = "Estimated production time")) + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = 2003:2015)
 
-multiplot(p1, p2)
+pdf('Fig1.pdf',
+    width = 7.5, height = 8.75)
+multiplot(p1, p2 + guides(colour = guide_legend(nrow = 3)))
+dev.off()
+
 
 x <- ddply(dat, .(year, data.journal), function(x){
   data.frame(revdays = x$received_accepted,
@@ -212,7 +243,7 @@ x <- ddply(dat, .(year, data.journal), function(x){
              authors.centred.sq = x$authors.centred.sq,
              pages.centred = x$pages.centred,
              pages.centred.sq = x$pages.centred.sq)
-  })
+})
 
 plotdf <- data.frame(data.journal = NULL,
                      years = NULL,
@@ -233,7 +264,7 @@ for(journal in unique(x$data.journal)){
                           as.factor(year),
                         data = sel,
                         family = "quasipoisson")
-  print(summary(review_process))
+  print((review_process))
   
   # Calculating the estimated days of review in the model
   reviewdays <- exp(review_process$coefficients[1])
@@ -254,7 +285,7 @@ for(journal in unique(x$data.journal)){
                             data = sel,
                             family = "quasipoisson")
   
-  print(summary(production_process))
+  print((production_process))
   # Calculating the estimates per year
   productiondays <- exp(production_process$coefficients[1])
   i = 2
@@ -270,22 +301,31 @@ for(journal in unique(x$data.journal)){
   
   # Saving out the data
   plotdf <- rbind(plotdf, temp)
-  }
+}
 
 plotdf$data.journal <- as.factor(plotdf$data.journal)
 
-p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal)) +
+p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal, group = data.journal)) +
+  geom_point(aes(col = data.journal)) + 
+  stat_smooth(method = "loess", se = FALSE) + 
+  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  xlim(c(2003, 2015)) + 
+  ylim(c(0, 225)) +
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = 2003:2015)
+
+# Loess curves kept giving errors here
+# Use LM curves instead...
+p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal, group = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) + 
   labs(list(x = "Year", y = "Estimated mean review days")) + 
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225))
+  ylim(c(0, 225)) + 
+  theme(legend.position = "top") +
+  scale_x_continuous(breaks = 2003:2015)
 
-p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal)) +
-  geom_point(aes(col = data.journal)) + 
-  stat_smooth(method = "lm", se = FALSE) + 
-  labs(list(x = "Year", y = "Estimated mean review days")) + 
-  xlim(c(2003, 2015)) + 
-  ylim(c(0, 225))
-
-multiplot(p1, p2)
+pdf('Fig2.pdf',
+    width = 7.5, height = 8.75)
+multiplot(p1, p2 + guides(colour = guide_legend(nrow = 3)))
+dev.off()
