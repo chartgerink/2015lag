@@ -17,7 +17,7 @@ library(plyr)
 source('multiplot.r')
 
 # Read in data
-dat <- read.csv(file = '20150514collected_data.csv')
+dat <- read.csv(file = '20150604collected_data.csv')
 
 # Assimilate journal naming
 # See discrepancies
@@ -85,6 +85,13 @@ dat <- dat[!dat$published < dat$accepted, ]
 # Accepted before received
 as.matrix(dat$data.id[dat$accepted < dat$received])
 dat <- dat[!dat$accepted < dat$received, ]
+
+# Selecting out those papers which have equivalent
+# received - accepted
+as.matrix(dat$data.id[dat$received == dat$accepted])
+dat <- dat[!dat$received == dat$accepted, ]
+
+print(dim(dat)[1])
 ```
 ## Data prepping
 ### Computing days between received, accepted, and published
@@ -93,7 +100,8 @@ In order to actually conduct analyses on the publication lag, the dates for rece
 ```{r}
 # Calculating the days between received, accepted, and published
 calc_days <- Vectorize(function(a, b) 
-  length(seq(a, b, "days"))) 
+  length(seq(a, b, "days")) - 1)
+# Minus 1 because otherwise count will be 1 for the same date
 
 # received_accepted <- calc_days(dat$received, dat$accepted)
 # save(received_accepted, file = "received_accepted")
