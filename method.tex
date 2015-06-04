@@ -2,9 +2,7 @@
 Article level data was collected from all PLoS journals with the \texttt{rplos} package \cite[v0.4.7][]{rplos} in \texttt{R} \cite[v3.2.0][]{rcran}. The dataset was collected on XX June, 2015 and is available via \texttt{https://osf.io/53sn9/} together with annotated data analyses. Research papers without a journal name, or publication dates, or had problematic publication dates were excluded. Problematic publication dates are papers that were published before accepted, accepted before submitted, or accepted at the same time as submitted.
 
 \begin{tabular}{ c c c c c }
-\toprule
           & \# Articles & Publication time & Review time & Production time \\
-    \midrule
     ONE   & 119435 & 147   & 106   & 37 \\
     Clinical Trials & 44    & 180.5 & 125   & 52 \\
     Genetics & 4676  & 182   & 131   & 50 \\
@@ -14,7 +12,6 @@ Article level data was collected from all PLoS journals with the \texttt{rplos} 
     Computational Biology & 3385  & 199   & 148   & 48 \\
     Medicine & 1057  & 231   & 175   & 47 \\
     Overall & 137468 & 152   & 111   & 38 \\
-    \bottomrule
 \end{tabular}
 
 The full publication cycle was split into the review process and the production process for the analyses. Both elements of the publication cycle were modelled with Poisson regression models. Such a Poisson model assumes equal mean and variance (i.e., dispersion $=1$), but the data showed overdispersion (i.e., $>1$). Overdispersion was modelled with quasi-poisson estimation.
