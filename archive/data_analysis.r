@@ -126,7 +126,7 @@ ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
   stat_smooth(method = "lm", se = FALSE) +
   labs(list(title = "Full publication cycle", x = "Median days", y = "Years")) +
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225))
+  ylim(c(0, 250))
 
 x <- ddply(dat, .(data.journal, year), function(x) summary(x$received_accepted))
 
@@ -135,7 +135,7 @@ p1 <- ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
   stat_smooth(method = "lm", se = FALSE) +
   labs(list(title = "Review process", x = "Median days", y = "Years")) +
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225)) + 
+  ylim(c(0, 250)) + 
   theme(legend.position = "none") + 
   scale_x_continuous(breaks=2003:2015)
 
@@ -146,7 +146,7 @@ p2 <- ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
   stat_smooth(method = "lm", se = FALSE) +
   labs(list(title = "Production process", x = "Median days", y = "Years")) +
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225)) + 
+  ylim(c(0, 250)) + 
   theme(legend.position = "top") + 
   scale_x_continuous(breaks = 2003:2015)
 
@@ -217,14 +217,14 @@ plotdf <- data.frame(years = 2003:2015, revdays = reviewdays,
 p1 <- ggplot(plotdf, aes(x = years, y = revdays)) +
   geom_point() + 
   stat_smooth(method = "loess", se = FALSE) +
-  labs(list(x = "Year", y = "Estimated review time")) + 
+  labs(list(x = "Year", y = "Estimated review time in days")) + 
   theme(legend.position = "none") + 
   scale_x_continuous(breaks = 2003:2015)
 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
   geom_point() + 
   stat_smooth(method = "loess", se = FALSE) +
-  labs(list(x = "Year", y = "Estimated production time")) + 
+  labs(list(x = "Year", y = "Estimated production time in days")) + 
   theme(legend.position = "none") + 
   scale_x_continuous(breaks = 2003:2015)
 
@@ -310,7 +310,7 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal, group = 
   stat_smooth(method = "loess", se = FALSE) + 
   labs(list(x = "Year", y = "Estimated mean review days")) + 
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225)) +
+  ylim(c(0, 250)) +
   theme(legend.position = "none") + 
   scale_x_continuous(breaks = 2003:2015)
 
@@ -319,9 +319,9 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal, group = 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal, group = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) + 
-  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  labs(list(x = "Year", y = "Estimated mean production days")) + 
   xlim(c(2003, 2015)) + 
-  ylim(c(0, 225)) + 
+  ylim(c(0, 250)) + 
   theme(legend.position = "top") +
   scale_x_continuous(breaks = 2003:2015)
 

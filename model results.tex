@@ -1,0 +1,36 @@
+\section*{Model results}
+Poisson model estimates across all journals indicate that both review- and production time are only predicted by year. Coefficients in Table \ref{tab:tab2} indicate predictive effects of number of authors, number of pages, and presence of competing interests is negligible (i.e., $\leq |.019|$). The results of these analyses indicate that in any given year, the review time is a random process around a certain mean.
+
+\begin{table}
+\caption{Table 2. Poisson regression model estimates for review- and production time (in days).}
+\label{tab:tab2}
+\begin{tabular}{ c c c }
+    & Estimate (review) & Estimate (production) \\
+    Intercept & 4.18738 & 4.24957 \\
+    Authors (centred) & 0.00189 & 0.00592 \\
+    Authors\^2 (centred) & -0.00001 & -0.00001 \\
+    Pages (centred) & -0.00093 & 0.00004 \\
+    Pages\^2 (centred) & -0.00011 & -0.00011 \\
+    Conflict of interest & -0.01900 & 0.00491 \\
+    2004  & 0.68773 & 0.10165 \\
+    2005  & 0.73865 & -0.12943 \\
+    2006  & 0.69365 & -0.10929 \\
+    2007  & 0.54892 & -0.46095 \\
+    2008  & 0.62000 & -0.57019 \\
+    2009  & 0.59294 & -0.56630 \\
+    2010  & 0.65820 & -0.66379 \\
+    2011  & 0.65244 & -0.56771 \\
+    2012  & 0.73470 & -0.47268 \\
+    2013  & 0.73683 & -0.37086 \\
+    2014  & 0.77308 & -0.53778 \\
+    2015  & 0.84419 & -0.24989 \\
+\end{tabular}
+\end{table}
+
+The estimated mean review- and production time are depicted in Figure XX. This indicates that mean review time has steadily climbed to 150 days and mean production time has climbed to 50 days, after decreasing throughout the first years of PLoS' existence.
+
+When specified per journal, highly similar results are found. With regards to model estimates, the only noteworthy difference is that, in the case of PLoS Biology, competing interests increase production time ($b=.11$). All other model estimates remain negligible and are available in S1 File.
+
+Estimated mean review time differs for journals across years, whereas estimated mean production time is stable across years for all journals. Figure XX visually depicts these estimates. 
+
+These models specified per journal give highly comparable results, except for one estimate in one journal. PLoS Biology only competing interests (.111)

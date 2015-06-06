@@ -1,3 +1,4 @@
 introduction.tex
 method.tex
-results.tex
+descriptive results.tex
+model results.tex

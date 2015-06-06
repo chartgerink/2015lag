@@ -392,7 +392,7 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal, group = 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal, group = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) + 
-  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  labs(list(x = "Year", y = "Estimated mean production days")) + 
   xlim(c(2003, 2015)) + 
   ylim(c(0, 225)) + 
   theme(legend.position = "top") +
