@@ -1,4 +1,5 @@
 introduction.tex
 method.tex
 descriptive results.tex
-model results.tex
+aggregate model results.tex
+journal model results.tex
