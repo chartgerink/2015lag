@@ -605,6 +605,7 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays)) +
   stat_smooth(method = "loess", se = FALSE) +
   labs(list(x = "Year", y = "Estimated review time")) + 
   theme(legend.position = "none") + 
+  ylim(c(0, 250)) + 
   scale_x_continuous(breaks = 2003:2015)
 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
@@ -612,6 +613,7 @@ p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
   stat_smooth(method = "loess", se = FALSE) +
   labs(list(x = "Year", y = "Estimated production time")) + 
   theme(legend.position = "none") + 
+  ylim(c(0, 250)) + 
   scale_x_continuous(breaks = 2003:2015)
 
 multiplot(p1, p2 + guides(colour = guide_legend(nrow = 3)))

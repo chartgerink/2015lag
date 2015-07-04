@@ -176,8 +176,8 @@ review_process <- glm(received_accepted ~
                         authors.centred.sq + 
                         pages.centred + 
                         pages.centred.sq +
-                        as.factor(year) + 
-                        as.factor(coi),
+                        as.factor(coi) + 
+                        as.factor(year),
                       data = dat,
                       family = "quasipoisson")
 
@@ -196,8 +196,8 @@ production_process <- glm(accepted_published ~
                             authors.centred.sq + 
                             pages.centred + 
                             pages.centred.sq +
-                            as.factor(year) +
-                            as.factor(coi),
+                            as.factor(coi) + 
+                            as.factor(year),
                           data = dat,
                           family = "quasipoisson")
 
@@ -268,6 +268,9 @@ for(journal in unique(x$data.journal)){
                         family = "quasipoisson")
   print((review_process))
   
+  writeClipboard(as.character(review_process$coefficients))
+  readline(sprintf('Copy paste the review time for %s', journal))
+  
   # Calculating the estimated days of review in the model
   reviewdays <- exp(review_process$coefficients[1])
   i = 2
@@ -282,12 +285,16 @@ for(journal in unique(x$data.journal)){
                               authors.centred.sq + 
                               pages.centred + 
                               pages.centred.sq +
-                              as.factor(year) +
-                              as.factor(coi),
+                              as.factor(coi) + 
+                              as.factor(year),
                             data = sel,
                             family = "quasipoisson")
   
   print((production_process))
+  
+  writeClipboard(as.character(production_process$coefficients))
+  readline(sprintf('Copy paste the production time for %s', journal))
+    
   # Calculating the estimates per year
   productiondays <- exp(production_process$coefficients[1])
   i = 2
