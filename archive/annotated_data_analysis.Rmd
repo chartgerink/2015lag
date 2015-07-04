@@ -17,7 +17,7 @@ library(plyr)
 source('multiplot.r')
 
 # Read in data
-dat <- read.csv(file = '20150604collected_data.csv')
+dat <- read.csv(file = '20150704collected_data.csv')
 
 # Assimilate journal naming
 # See discrepancies

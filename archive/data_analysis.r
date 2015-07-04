@@ -8,7 +8,7 @@ library(plyr)
 source('multiplot.r')
 
 # Read in data
-dat <- read.csv(file = '20150604collected_data.csv')
+dat <- read.csv(file = '20150704collected_data.csv')
 
 # Assimilate journal naming
 # See discrepancies
@@ -219,6 +219,7 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays)) +
   stat_smooth(method = "loess", se = FALSE) +
   labs(list(x = "Year", y = "Estimated review time in days")) + 
   theme(legend.position = "none") + 
+  ylim(c(0, 250)) + 
   scale_x_continuous(breaks = 2003:2015)
 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
@@ -226,6 +227,7 @@ p2 <- ggplot(plotdf, aes(x = years, y = proddays)) +
   stat_smooth(method = "loess", se = FALSE) +
   labs(list(x = "Year", y = "Estimated production time in days")) + 
   theme(legend.position = "none") + 
+  ylim(c(0, 250)) + 
   scale_x_continuous(breaks = 2003:2015)
 
 pdf('Fig1.pdf',

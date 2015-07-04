@@ -1,5 +1,5 @@
-setwd("C:/Users/chjh/Dropbox/projects/2015lag")
-# setwd("D:/Dropbox/projects/2015lag")
+# setwd("C:/Users/chjh/Dropbox/projects/2015lag")
+setwd("D:/Dropbox/projects/2015lag")
 
 if(!require(rplos)){install.packages('rplos')}
 library(rplos)
@@ -40,4 +40,4 @@ search_results <- searchplos(q = que,
                              start=0,
                              limit=hits)
 
-write.csv(search_results, '20150701collected_data.csv')
+write.csv(search_results, '20150704collected_data.csv')

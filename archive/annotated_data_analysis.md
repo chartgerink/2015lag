@@ -18,7 +18,7 @@ library(plyr)
 source('multiplot.r')
 
 # Read in data
-dat <- read.csv(file = '20150604collected_data.csv')
+dat <- read.csv(file = '20150704collected_data.csv')
 
 # Assimilate journal naming
 # See discrepancies
@@ -30,21 +30,21 @@ table(dat$data.journal)
 ##                             none                     PLoS Biology 
 ##                             6632                             1947 
 ##                     PLOS Biology             PLoS Clinical Trials 
-##                               61                               44 
+##                               71                               44 
 ##       PLoS Computational Biology       PLOS Computational Biology 
-##                             3179                              209 
+##                             3179                              247 
 ##                    PLoS Genetics                    PLOS Genetics 
-##                             4373                              303 
+##                             4373                              368 
 ##                     PLoS Medicin                    PLoS Medicine 
 ##                                1                             1031 
 ##                    PLOS Medicine PLoS Neglected Tropical Diseases 
-##                               26                             2655 
+##                               31                             2655 
 ## PLOS Neglected Tropical Diseases                         PLoS One 
-##                              300                                1 
+##                              359                                1 
 ##                         PLoS ONE                         PLOS ONE 
-##                           107911                            11539 
+##                           107911                            14502 
 ##                   PLoS Pathogens                   PLOS Pathogens 
-##                             3683                              254
+##                             3683                              320
 ```
 
 ```r
@@ -58,15 +58,15 @@ table(dat$data.journal)
 ```
 ## 
 ##                             none                     plos biology 
-##                             6632                             2008 
+##                             6632                             2018 
 ##             plos clinical trials       plos computational biology 
-##                               44                             3388 
+##                               44                             3426 
 ##                    plos genetics                     plos medicin 
-##                             4676                                1 
+##                             4741                                1 
 ##                    plos medicine plos neglected tropical diseases 
-##                             1057                             2955 
+##                             1062                             3014 
 ##                         plos one                   plos pathogens 
-##                           119451                             3937
+##                           122414                             4003
 ```
 
 ```r
@@ -81,13 +81,13 @@ table(dat$data.journal)
 ```
 ## 
 ##                     plos biology             plos clinical trials 
-##                             2008                               44 
+##                             2018                               44 
 ##       plos computational biology                    plos genetics 
-##                             3388                             4676 
+##                             3426                             4741 
 ##                    plos medicine plos neglected tropical diseases 
-##                             1058                             2955 
+##                             1063                             3014 
 ##                         plos one                   plos pathogens 
-##                           119451                             3937
+##                           122414                             4003
 ```
 
 ```r
@@ -218,7 +218,7 @@ print(dim(dat)[1])
 ```
 
 ```
-## [1] 137468
+## [1] 140674
 ```
 
 ```r
@@ -228,13 +228,13 @@ print(table(dat$data.journal))
 ```
 ## 
 ##                     plos biology             plos clinical trials 
-##                             2005                               44 
+##                             2015                               44 
 ##       plos computational biology                    plos genetics 
-##                             3385                             4676 
+##                             3423                             4741 
 ##                    plos medicine plos neglected tropical diseases 
-##                             1057                             2940 
+##                             1062                             2999 
 ##                         plos one                   plos pathogens 
-##                           119435                             3926
+##                           122398                             3992
 ```
 ## Data prepping
 ### Computing days between received, accepted, and published
@@ -280,14 +280,14 @@ x[order(x$Median),]
 
 ```
 ##                       data.journal Min. 1st Qu. Median  Mean 3rd Qu. Max.
-## 7                         plos one   14   112.0  147.0 163.1     193 1955
-## 2             plos clinical trials   91   155.2  180.5 181.0     205  303
-## 4                    plos genetics   30   142.0  182.0 195.7     232 1052
-## 6 plos neglected tropical diseases   49   143.0  183.0 199.4     233 1187
-## 8                   plos pathogens   23   146.0  183.0 196.3     230 1032
-## 1                     plos biology   42   147.0  190.0 200.9     239  650
-## 3       plos computational biology   65   161.0  199.0 214.7     248 1162
-## 5                    plos medicine   33   189.0  231.0 246.1     285  883
+## 7                         plos one   14   113.0  147.0 163.6   194.0 1955
+## 2             plos clinical trials   91   155.2  180.5 181.0   205.0  303
+## 4                    plos genetics   30   142.0  182.0 195.8   232.0 1052
+## 6 plos neglected tropical diseases   49   142.0  183.0 198.9   232.0 1187
+## 8                   plos pathogens   23   145.0  183.0 196.0   230.0 1032
+## 1                     plos biology   42   147.0  190.0 201.2   241.5  650
+## 3       plos computational biology   65   161.0  199.0 214.8   248.0 1162
+## 5                    plos medicine   33   189.0  230.5 246.0   285.0  883
 ```
 which, when split up into the review process and production process looks as follows
 
@@ -299,14 +299,14 @@ x[order(x$Median),]
 
 ```
 ##                       data.journal Min. 1st Qu. Median  Mean 3rd Qu. Max.
-## 7                         plos one    1   74.00  106.0 123.1     151 1927
-## 2             plos clinical trials   23   98.75  125.0 126.1     155  245
-## 4                    plos genetics    2   93.00  131.0 144.6     179 1000
-## 6 plos neglected tropical diseases   16   97.00  133.0 151.2     184 1149
-## 8                   plos pathogens    5  101.00  138.5 151.4     184 1008
-## 1                     plos biology    7   96.00  141.0 151.1     191  590
-## 3       plos computational biology   13  111.00  148.0 162.9     196 1117
-## 5                    plos medicine    8  137.00  175.0 191.8     227  823
+## 7                         plos one    1   75.00    107 123.6   152.0 1927
+## 2             plos clinical trials   23   98.75    125 126.1   155.0  245
+## 4                    plos genetics    2   93.00    131 144.9   179.0 1000
+## 6 plos neglected tropical diseases   16   96.00    133 151.1   184.0 1149
+## 8                   plos pathogens    5  101.00    139 151.4   184.0 1008
+## 1                     plos biology    7   97.00    141 151.4   191.0  590
+## 3       plos computational biology   13  111.00    148 162.8   196.0 1117
+## 5                    plos medicine    8  137.00    176 191.8   226.8  823
 ```
 
 ```r
@@ -317,16 +317,16 @@ x[order(x$Median),]
 
 ```
 ##                       data.journal Min. 1st Qu. Median  Mean 3rd Qu. Max.
-## 7                         plos one    0      29     37 39.98      46  758
-## 8                   plos pathogens   13      33     43 44.86      53  225
-## 6 plos neglected tropical diseases   10      37     45 48.19      55  216
-## 1                     plos biology   15      41     46 49.83      55  422
-## 5                    plos medicine    8      41     47 54.27      63  165
-## 3       plos computational biology   22      38     48 51.78      59  258
-## 4                    plos genetics   16      36     50 51.09      60  509
+## 7                         plos one    0      29     36 39.98      46  758
+## 8                   plos pathogens   11      32     43 44.63      52  225
+## 6 plos neglected tropical diseases   10      36     45 47.81      55  216
+## 1                     plos biology   15      41     46 49.78      55  422
+## 5                    plos medicine    8      41     47 54.20      62  165
+## 3       plos computational biology   22      38     48 52.03      59  258
+## 4                    plos genetics   15      35     50 50.86      60  509
 ## 2             plos clinical trials   37      45     52 54.86      63   85
 ```
-This indicates that the publication cycle is shortest for PLOS ONE, and longest for PLOS Medicine. This could be due to efficiency in handling more publications (i.e., ONE: 119435; Med.: 1057), but could also represent selectivity. PLOS ONE prouds itself of selecting papers only on scientific rigor and not on results, whereas PLOS medicine does include selectivity in its criteria for publication (e.g., originality of research; see their guidelines [here](http://journals.plos.org/plosmedicine/s/journal-information)).
+This indicates that the publication cycle is shortest for PLOS ONE, and longest for PLOS Medicine. This could be due to efficiency in handling more publications (i.e., ONE: 122398; Med.: 1062), but could also represent selectivity. PLOS ONE prouds itself of selecting papers only on scientific rigor and not on results, whereas PLOS medicine does include selectivity in its criteria for publication (e.g., originality of research; see their guidelines [here](http://journals.plos.org/plosmedicine/s/journal-information)).
 
 
 ```r
@@ -341,17 +341,12 @@ ggplot(x, aes(x = year, y = Median, colour = data.journal)) +
 ```
 
 ```
-## Warning in loop_apply(n, do.ply): Removed 1 rows containing missing values
-## (stat_smooth).
-```
-
-```
 ## Warning in loop_apply(n, do.ply): Removed 7 rows containing missing values
 ## (stat_smooth).
 ```
 
 ```
-## Warning in loop_apply(n, do.ply): Removed 8 rows containing missing values
+## Warning in loop_apply(n, do.ply): Removed 7 rows containing missing values
 ## (geom_point).
 ```
 
@@ -422,7 +417,7 @@ From these analyses I conclude two things in analyzing publication cycles:
 2. Not all PLOS journals are alike, so inspect whether the overall trend is valid for the journals separately.
 
 ### Correlational data analysis
-The correlation between the time to go from received to accepted and the time to go from accepted to published is 0.05. Note that competing interests is excluded from the correlation matrix because it is a dummy variable. Below the squared correlation matrix is given, for easier interpretation.
+The correlation between the time to go from received to accepted and the time to go from accepted to published is 0.051. Note that competing interests is excluded from the correlation matrix because it is a dummy variable. Below the squared correlation matrix is given, for easier interpretation.
 
 
 ```r
@@ -436,20 +431,20 @@ cor(d)
 ```
 
 ```
-##                 receive_accept accept_publish receive_publish     authors
-## receive_accept      1.00000000     0.04984820      0.97606857  0.01466268
-## accept_publish      0.04984820     1.00000000      0.26584788  0.06653484
-## receive_publish     0.97606857     0.26584788      1.00000000  0.02863951
-## authors             0.01466268     0.06653484      0.02863951  1.00000000
-## pages              -0.08555901    -0.06373101     -0.09645922 -0.04138199
-## years               0.10468037     0.10399521      0.12368231  0.01030564
-##                       pages       years
-## receive_accept  -0.08555901  0.10468037
-## accept_publish  -0.06373101  0.10399521
-## receive_publish -0.09645922  0.12368231
-## authors         -0.04138199  0.01030564
-## pages            1.00000000 -0.07213815
-## years           -0.07213815  1.00000000
+##                 receive_accept accept_publish receive_publish      authors
+## receive_accept      1.00000000     0.05113354      0.97595530  0.014301905
+## accept_publish      0.05113354     1.00000000      0.26758965  0.064943212
+## receive_publish     0.97595530     0.26758965      1.00000000  0.027972671
+## authors             0.01430191     0.06494321      0.02797267  1.000000000
+## pages              -0.08647265    -0.06068832     -0.09667399 -0.040450711
+## years               0.10771547     0.09830520      0.12537908  0.009836159
+##                       pages        years
+## receive_accept  -0.08647265  0.107715471
+## accept_publish  -0.06068832  0.098305199
+## receive_publish -0.09667399  0.125379083
+## authors         -0.04045071  0.009836159
+## pages            1.00000000 -0.087848795
+## years           -0.08784880  1.000000000
 ```
 
 ```r
@@ -457,20 +452,20 @@ cor(d)^2
 ```
 
 ```
-##                 receive_accept accept_publish receive_publish      authors
-## receive_accept    1.0000000000    0.002484843    0.9527098585 0.0002149941
-## accept_publish    0.0024848434    1.000000000    0.0706750963 0.0044268849
-## receive_publish   0.9527098585    0.070675096    1.0000000000 0.0008202215
-## authors           0.0002149941    0.004426885    0.0008202215 1.0000000000
-## pages             0.0073203450    0.004061641    0.0093043819 0.0017124688
-## years             0.0109579799    0.010815003    0.0152973147 0.0001062062
-##                       pages        years
-## receive_accept  0.007320345 0.0109579799
-## accept_publish  0.004061641 0.0108150035
-## receive_publish 0.009304382 0.0152973147
-## authors         0.001712469 0.0001062062
-## pages           1.000000000 0.0052039124
-## years           0.005203912 1.0000000000
+##                 receive_accept accept_publish receive_publish
+## receive_accept    1.0000000000    0.002614638    0.9524887520
+## accept_publish    0.0026146385    1.000000000    0.0716042217
+## receive_publish   0.9524887520    0.071604222    1.0000000000
+## authors           0.0002045445    0.004217621    0.0007824703
+## pages             0.0074775191    0.003683072    0.0093458610
+## years             0.0116026227    0.009663912    0.0157199145
+##                       authors       pages         years
+## receive_accept  0.00020454450 0.007477519 0.01160262273
+## accept_publish  0.00421762080 0.003683072 0.00966391223
+## receive_publish 0.00078247033 0.009345861 0.01571991454
+## authors         1.00000000000 0.001636260 0.00009675002
+## pages           0.00163626005 1.000000000 0.00771741087
+## years           0.00009675002 0.007717411 1.00000000000
 ```
 
 Here we see that squared correlations between the days from receive to accept and receive to published are high. This is logical because the majority of the publication cycle *is* the review process. The production process, on the other hand, has only a medium correlation with the entire publication cycle.
@@ -530,21 +525,21 @@ print(review_process)
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##         4.187379085          0.001885353         -0.000007218  
+##         4.183703551          0.001756108         -0.000005252  
 ##       pages.centred     pages.centred.sq  as.factor(year)2004  
-##        -0.000934009         -0.000109952          0.687728621  
+##        -0.000835567         -0.000104159          0.687578055  
 ## as.factor(year)2005  as.factor(year)2006  as.factor(year)2007  
-##         0.738653817          0.693650711          0.548916416  
+##         0.740309069          0.695788011          0.551037989  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##         0.619997156          0.592943351          0.658202470  
+##         0.622245463          0.595252347          0.660454511  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##         0.652439350          0.734696312          0.736832729  
+##         0.654626783          0.736873206          0.738873934  
 ## as.factor(year)2014  as.factor(year)2015   as.factor(coi)TRUE  
-##         0.773077684          0.844193512         -0.018998220  
+##         0.775322769          0.842292331         -0.017130485  
 ## 
-## Degrees of Freedom: 137467 Total (i.e. Null);  137450 Residual
-## Null Deviance:	    5673000 
-## Residual Deviance: 5529000 	AIC: NA
+## Degrees of Freedom: 140673 Total (i.e. Null);  140656 Residual
+## Null Deviance:	    5830000 
+## Residual Deviance: 5680000 	AIC: NA
 ```
 
 ```r
@@ -577,21 +572,21 @@ print(production_process)
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.24956932           0.00591583          -0.00001488  
+##          4.24677469           0.00581845          -0.00001445  
 ##       pages.centred     pages.centred.sq  as.factor(year)2004  
-##          0.00004318          -0.00011172           0.10164675  
+##          0.00012486          -0.00010576           0.10155008  
 ## as.factor(year)2005  as.factor(year)2006  as.factor(year)2007  
-##         -0.12942828          -0.10928853          -0.46095013  
+##         -0.12891309          -0.10829864          -0.45996087  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##         -0.57019109          -0.56629725          -0.66378719  
+##         -0.56911000          -0.56514208          -0.66265974  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##         -0.56771495          -0.47268199          -0.37085600  
+##         -0.56665233          -0.47161252          -0.36991185  
 ## as.factor(year)2014  as.factor(year)2015   as.factor(coi)TRUE  
-##         -0.53778005          -0.24988634           0.00491181  
+##         -0.53661168          -0.29642702           0.00550980  
 ## 
-## Degrees of Freedom: 137467 Total (i.e. Null);  137450 Residual
-## Null Deviance:	    833700 
-## Residual Deviance: 736100 	AIC: NA
+## Degrees of Freedom: 140673 Total (i.e. Null);  140656 Residual
+## Null Deviance:	    861900 
+## Residual Deviance: 772700 	AIC: NA
 ```
 
 ```r
@@ -706,21 +701,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.11694165           0.00183624          -0.00001217  
+##          4.10866707           0.00177331          -0.00001157  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##          0.00249938          -0.00016616           0.00002218  
+##          0.00258629          -0.00015998           0.00685072  
 ## as.factor(year)2004  as.factor(year)2005  as.factor(year)2006  
-##          0.71403255           0.89456751           0.90460052  
+##          0.71416647           0.90083747           0.91110409  
 ## as.factor(year)2007  as.factor(year)2008  as.factor(year)2009  
-##          1.15528807           1.05714109           1.13692298  
+##          1.16190159           1.06405654           1.14383791  
 ## as.factor(year)2010  as.factor(year)2011  as.factor(year)2012  
-##          1.08368074           1.09508326           1.05699442  
+##          1.09081214           1.10232131           1.06417914  
 ## as.factor(year)2013  as.factor(year)2014  as.factor(year)2015  
-##          1.09529349           0.93613224           0.95577527  
+##          1.10273378           0.94374977           1.02285391  
 ## 
-## Degrees of Freedom: 2004 Total (i.e. Null);  1987 Residual
-## Null Deviance:	    72570 
-## Residual Deviance: 65330 	AIC: NA
+## Degrees of Freedom: 2014 Total (i.e. Null);  1997 Residual
+## Null Deviance:	    73140 
+## Residual Deviance: 65840 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -728,21 +723,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.07244803          -0.00055656          -0.00001259  
+##          4.07497730          -0.00062518          -0.00001205  
 ##       pages.centred     pages.centred.sq  as.factor(year)2004  
-##          0.00005685          -0.00004097           0.09593973  
+##          0.00005036          -0.00003693           0.09565118  
 ## as.factor(year)2005  as.factor(year)2006  as.factor(year)2007  
-##         -0.02502313          -0.00216962           0.04243833  
+##         -0.02919644          -0.00657952           0.03823947  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##         -0.24374524          -0.26749993          -0.31204595  
+##         -0.24788400          -0.27162724          -0.31608039  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##         -0.29000522          -0.27001546          -0.30689055  
+##         -0.29411259          -0.27385814          -0.31086342  
 ## as.factor(year)2014  as.factor(year)2015   as.factor(coi)TRUE  
-##         -0.32081451          -0.32245318           0.11073458  
+##         -0.32487455          -0.33043809           0.10638313  
 ## 
-## Degrees of Freedom: 2004 Total (i.e. Null);  1987 Residual
-## Null Deviance:	    7688 
-## Residual Deviance: 4592 	AIC: NA
+## Degrees of Freedom: 2014 Total (i.e. Null);  1997 Residual
+## Null Deviance:	    7714 
+## Residual Deviance: 4605 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -750,21 +745,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.50470815           0.00074942          -0.00002711  
+##          4.49986616           0.00060374          -0.00002508  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##          0.00083057          -0.00020866           0.03638316  
+##          0.00092514          -0.00019599           0.03711171  
 ## as.factor(year)2005  as.factor(year)2006  as.factor(year)2007  
-##          0.60856638           0.80556744           0.88026851  
+##          0.60828934           0.80585659           0.88039661  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##          0.91670421           1.12473927           0.82414906  
+##          0.91740208           1.12571231           0.82455794  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##          0.96224537           1.05791709           0.82152713  
+##          0.96283649           1.05903540           0.82279666  
 ## as.factor(year)2014  as.factor(year)2015  
-##          0.81579391           0.97310684  
+##          0.81804255           0.95074201  
 ## 
-## Degrees of Freedom: 1056 Total (i.e. Null);  1040 Residual
-## Null Deviance:	    41160 
-## Residual Deviance: 35570 	AIC: NA
+## Degrees of Freedom: 1061 Total (i.e. Null);  1045 Residual
+## Null Deviance:	    41190 
+## Residual Deviance: 35640 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -772,21 +767,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##         4.227978181          0.000211564         -0.000009064  
+##        4.2298827904         0.0001852515        -0.0000086756  
 ##       pages.centred     pages.centred.sq  as.factor(year)2005  
-##         0.000504044          0.000003046         -0.002780969  
+##        0.0005151049         0.0000005676        -0.0028305387  
 ## as.factor(year)2006  as.factor(year)2007  as.factor(year)2008  
-##         0.209747318         -0.200954534         -0.270278523  
+##        0.2094690721        -0.2013928724        -0.2706354730  
 ## as.factor(year)2009  as.factor(year)2010  as.factor(year)2011  
-##        -0.402857473         -0.508820957         -0.444387179  
+##       -0.4032908824        -0.5092341632        -0.4448277517  
 ## as.factor(year)2012  as.factor(year)2013  as.factor(year)2014  
-##        -0.449022375         -0.447800780         -0.456451182  
+##       -0.4495859582        -0.4484683655        -0.4572485634  
 ## as.factor(year)2015   as.factor(coi)TRUE  
-##        -0.465600956          0.008333598  
+##       -0.4784239587         0.0084793422  
 ## 
-## Degrees of Freedom: 1056 Total (i.e. Null);  1040 Residual
-## Null Deviance:	    6460 
-## Residual Deviance: 2475 	AIC: NA
+## Degrees of Freedom: 1061 Total (i.e. Null);  1045 Residual
+## Null Deviance:	    6481 
+## Residual Deviance: 2476 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -794,21 +789,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##           4.8967586           -0.0026681           -0.0005642  
+##           4.8914924           -0.0028890           -0.0005406  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##           0.0012405           -0.0003496           -0.0054980  
+##           0.0014486           -0.0003338            0.0051308  
 ## as.factor(year)2006  as.factor(year)2007  as.factor(year)2008  
-##           0.2432795            0.3435141            0.4869778  
+##           0.2439238            0.3443658            0.4883147  
 ## as.factor(year)2009  as.factor(year)2010  as.factor(year)2011  
-##           0.4082567            0.4586731            0.3718249  
+##           0.4094643            0.4599346            0.3734406  
 ## as.factor(year)2012  as.factor(year)2013  as.factor(year)2014  
-##           0.3359486            0.3934695            0.3857876  
+##           0.3374606            0.3949113            0.3874732  
 ## as.factor(year)2015  
-##           0.3123629  
+##           0.3013818  
 ## 
-## Degrees of Freedom: 3384 Total (i.e. Null);  3369 Residual
-## Null Deviance:	    118700 
-## Residual Deviance: 113000 	AIC: NA
+## Degrees of Freedom: 3422 Total (i.e. Null);  3407 Residual
+## Null Deviance:	    119700 
+## Residual Deviance: 114100 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -816,21 +811,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##           3.7351050            0.0008529            0.0005100  
+##           3.7405895            0.0015138            0.0004781  
 ##       pages.centred     pages.centred.sq  as.factor(year)2006  
-##           0.0004500           -0.0001047            0.1808127  
+##           0.0005832           -0.0001057            0.1807597  
 ## as.factor(year)2007  as.factor(year)2008  as.factor(year)2009  
-##           0.2378988            0.1023408           -0.0842979  
+##           0.2381107            0.1023842           -0.0842367  
 ## as.factor(year)2010  as.factor(year)2011  as.factor(year)2012  
-##          -0.1512043            0.3749224            0.3901254  
+##          -0.1512798            0.3746796            0.3899237  
 ## as.factor(year)2013  as.factor(year)2014  as.factor(year)2015  
-##           0.3543211            0.3831363            0.5924781  
+##           0.3539366            0.3827273            0.5896703  
 ##  as.factor(coi)TRUE  
-##          -0.0146962  
+##          -0.0185663  
 ## 
-## Degrees of Freedom: 3384 Total (i.e. Null);  3369 Residual
-## Null Deviance:	    20790 
-## Residual Deviance: 12450 	AIC: NA
+## Degrees of Freedom: 3422 Total (i.e. Null);  3407 Residual
+## Null Deviance:	    21910 
+## Residual Deviance: 13240 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -838,21 +833,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##         4.759530203          0.000868954         -0.000006656  
+##         4.763744548          0.000894070         -0.000006959  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##         0.001731565         -0.000364188         -0.009072820  
+##         0.002052218         -0.000358041         -0.005621569  
 ## as.factor(year)2006  as.factor(year)2007  as.factor(year)2008  
-##         0.239519003          0.181319810          0.384765236  
+##         0.238357800          0.180149065          0.384168398  
 ## as.factor(year)2009  as.factor(year)2010  as.factor(year)2011  
-##         0.340389185          0.509333383          0.386127721  
+##         0.339667313          0.508655826          0.385337319  
 ## as.factor(year)2012  as.factor(year)2013  as.factor(year)2014  
-##         0.374821631          0.462420160          0.465760986  
+##         0.374138694          0.461792124          0.465043023  
 ## as.factor(year)2015  
-##         0.366564896  
+##         0.375792999  
 ## 
-## Degrees of Freedom: 4675 Total (i.e. Null);  4660 Residual
-## Null Deviance:	    173700 
-## Residual Deviance: 164200 	AIC: NA
+## Degrees of Freedom: 4740 Total (i.e. Null);  4725 Residual
+## Null Deviance:	    177600 
+## Residual Deviance: 167700 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -860,21 +855,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          3.93650038           0.00297663          -0.00000508  
+##         3.934552023          0.003060502         -0.000005389  
 ##       pages.centred     pages.centred.sq  as.factor(year)2006  
-##          0.00041195          -0.00003956           0.03723607  
+##         0.000409772         -0.000036107          0.037415541  
 ## as.factor(year)2007  as.factor(year)2008  as.factor(year)2009  
-##         -0.02286547          -0.30093929          -0.46625561  
+##        -0.022666138         -0.300702846         -0.466064755  
 ## as.factor(year)2010  as.factor(year)2011  as.factor(year)2012  
-##         -0.40044364           0.05057414           0.20592433  
+##        -0.400311956          0.050565673          0.206083706  
 ## as.factor(year)2013  as.factor(year)2014  as.factor(year)2015  
-##          0.16142727           0.22567714          -0.12118357  
+##         0.161725858          0.225986921         -0.159474036  
 ##  as.factor(coi)TRUE  
-##         -0.00580276  
+##        -0.005035780  
 ## 
-## Degrees of Freedom: 4675 Total (i.e. Null);  4660 Residual
-## Null Deviance:	    30790 
-## Residual Deviance: 17690 	AIC: NA
+## Degrees of Freedom: 4740 Total (i.e. Null);  4725 Residual
+## Null Deviance:	    31830 
+## Residual Deviance: 18480 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -882,21 +877,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.82756225           0.00775773          -0.00050023  
+##           4.8267055            0.0072880           -0.0004892  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##         -0.00008574          -0.00028716          -0.06294371  
+##           0.0001293           -0.0002764           -0.0627655  
 ## as.factor(year)2006  as.factor(year)2007  as.factor(year)2008  
-##          0.18859917           0.18170095           0.36194702  
+##           0.1886836            0.1819362            0.3622486  
 ## as.factor(year)2009  as.factor(year)2010  as.factor(year)2011  
-##          0.33780700           0.41887006           0.30041897  
+##           0.3384453            0.4198299            0.3015374  
 ## as.factor(year)2012  as.factor(year)2013  as.factor(year)2014  
-##          0.27488323           0.35136502           0.32158604  
+##           0.2759437            0.3526464            0.3230529  
 ## as.factor(year)2015  
-##          0.25958544  
+##           0.2557467  
 ## 
-## Degrees of Freedom: 3925 Total (i.e. Null);  3910 Residual
-## Null Deviance:	    132900 
-## Residual Deviance: 127500 	AIC: NA
+## Degrees of Freedom: 3991 Total (i.e. Null);  3976 Residual
+## Null Deviance:	    135700 
+## Residual Deviance: 130400 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -904,21 +899,21 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          3.90922497           0.00147421           0.00008953  
+##          3.90899335           0.00173231           0.00007744  
 ##       pages.centred     pages.centred.sq  as.factor(year)2006  
-##         -0.00004401           0.00001657          -0.12761976  
+##         -0.00007295           0.00001692          -0.12767050  
 ## as.factor(year)2007  as.factor(year)2008  as.factor(year)2009  
-##         -0.00981846          -0.40749207          -0.55331450  
+##         -0.01003259          -0.40767783          -0.55369399  
 ## as.factor(year)2010  as.factor(year)2011  as.factor(year)2012  
-##         -0.42387711           0.08510586          -0.00578096  
+##         -0.42422062           0.08471489          -0.00610339  
 ## as.factor(year)2013  as.factor(year)2014  as.factor(year)2015  
-##          0.07411762          -0.03106040          -0.23120524  
+##          0.07375146          -0.03146286          -0.27688196  
 ##  as.factor(coi)TRUE  
-##         -0.00799686  
+##         -0.01070774  
 ## 
-## Degrees of Freedom: 3925 Total (i.e. Null);  3910 Residual
-## Null Deviance:	    18550 
-## Residual Deviance: 10270 	AIC: NA
+## Degrees of Freedom: 3991 Total (i.e. Null);  3976 Residual
+## Null Deviance:	    19200 
+## Residual Deviance: 10720 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -926,15 +921,15 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##           5.2769911           -0.0030499           -0.0011882  
+##           5.1995376           -0.0035359           -0.0011178  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##           0.0058133           -0.0007946            0.1227862  
+##           0.0055243           -0.0006679            0.1123716  
 ## as.factor(year)2007  
-##           0.3201423  
+##           0.3244059  
 ## 
 ## Degrees of Freedom: 43 Total (i.e. Null);  37 Residual
 ## Null Deviance:	    836.8 
-## Residual Deviance: 603.8 	AIC: NA
+## Residual Deviance: 609.4 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -942,15 +937,15 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          3.85762582           0.00523503           0.00006294  
+##          3.85203822           0.00518373           0.00006744  
 ##       pages.centred     pages.centred.sq  as.factor(year)2007  
-##         -0.00036135           0.00007648           0.13825123  
+##         -0.00048511           0.00008162           0.13827046  
 ##  as.factor(coi)TRUE  
-##          0.03347334  
+##          0.03280538  
 ## 
 ## Degrees of Freedom: 43 Total (i.e. Null);  37 Residual
 ## Null Deviance:	    96.94 
-## Residual Deviance: 83.86 	AIC: NA
+## Residual Deviance: 83.83 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -958,19 +953,19 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##         3.619016931          0.000610472         -0.000002031  
+##         3.619677949          0.000419007          0.000003753  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##        -0.000804018         -0.000048886         -0.010399452  
+##        -0.000721168         -0.000049241         -0.008623506  
 ## as.factor(year)2007  as.factor(year)2008  as.factor(year)2009  
-##         0.718244524          0.942025039          0.970712782  
+##         0.718423223          0.942470056          0.971213494  
 ## as.factor(year)2010  as.factor(year)2011  as.factor(year)2012  
-##         1.074679964          1.134877924          1.244470231  
+##         1.075177940          1.135385421          1.244993409  
 ## as.factor(year)2013  as.factor(year)2014  as.factor(year)2015  
-##         1.238048336          1.287880175          1.387457080  
+##         1.238589811          1.288369186          1.382372151  
 ## 
-## Degrees of Freedom: 119434 Total (i.e. Null);  119420 Residual
-## Null Deviance:	    4894000 
-## Residual Deviance: 4683000 	AIC: NA
+## Degrees of Freedom: 122397 Total (i.e. Null);  122383 Residual
+## Null Deviance:	    5042000 
+## Residual Deviance: 4822000 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -978,19 +973,19 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.13948013           0.00582869          -0.00001658  
+##          4.13901626           0.00575154          -0.00001670  
 ##       pages.centred     pages.centred.sq  as.factor(year)2007  
-##          0.00037649          -0.00008122          -0.66381655  
+##          0.00045405          -0.00007901          -0.66365268  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##         -0.52489551          -0.44203940          -0.59241461  
+##         -0.52455619          -0.44162708          -0.59198576  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##         -0.54539601          -0.42241762          -0.30375622  
+##         -0.54497324          -0.42196674          -0.30335121  
 ## as.factor(year)2014  as.factor(year)2015   as.factor(coi)TRUE  
-##         -0.48949999          -0.13868700           0.02110927  
+##         -0.48900642          -0.18806362           0.02161909  
 ## 
-## Degrees of Freedom: 119434 Total (i.e. Null);  119420 Residual
-## Null Deviance:	    695700 
-## Residual Deviance: 601800 	AIC: NA
+## Degrees of Freedom: 122397 Total (i.e. Null);  122383 Residual
+## Null Deviance:	    720500 
+## Residual Deviance: 634500 	AIC: NA
 ## 
 ## Call:  glm(formula = revdays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(coi) + as.factor(year), 
@@ -998,19 +993,19 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.73623522           0.00504142          -0.00011078  
+##          4.74789060           0.00542013          -0.00011709  
 ##       pages.centred     pages.centred.sq   as.factor(coi)TRUE  
-##         -0.00064066           0.00006489           0.03309152  
+##         -0.00052007           0.00004431           0.03875241  
 ## as.factor(year)2008  as.factor(year)2009  as.factor(year)2010  
-##          0.35252263           0.15628949           0.27560221  
+##          0.35310430           0.15707669           0.27607344  
 ## as.factor(year)2011  as.factor(year)2012  as.factor(year)2013  
-##          0.24380663           0.23596354           0.26013658  
+##          0.24456892           0.23670862           0.26040364  
 ## as.factor(year)2014  as.factor(year)2015  
-##          0.21299259           0.17111324  
+##          0.21316609           0.16975219  
 ## 
-## Degrees of Freedom: 2939 Total (i.e. Null);  2926 Residual
-## Null Deviance:	    114000 
-## Residual Deviance: 112700 	AIC: NA
+## Degrees of Freedom: 2998 Total (i.e. Null);  2985 Residual
+## Null Deviance:	    116500 
+## Residual Deviance: 115200 	AIC: NA
 ## 
 ## Call:  glm(formula = proddays ~ authors.centred + authors.centred.sq + 
 ##     pages.centred + pages.centred.sq + as.factor(year) + as.factor(coi), 
@@ -1018,19 +1013,19 @@ for(journal in unique(x$data.journal)){
 ## 
 ## Coefficients:
 ##         (Intercept)      authors.centred   authors.centred.sq  
-##          4.61852593           0.00082814           0.00014587  
+##          4.61955197           0.00069150           0.00015788  
 ##       pages.centred     pages.centred.sq  as.factor(year)2008  
-##          0.00001438           0.00002480          -0.97747211  
+##         -0.00001902           0.00002267          -0.97743013  
 ## as.factor(year)2009  as.factor(year)2010  as.factor(year)2011  
-##         -1.18385710          -0.91642789          -0.68380228  
+##         -1.18379596          -0.91654444          -0.68387522  
 ## as.factor(year)2012  as.factor(year)2013  as.factor(year)2014  
-##         -0.66634555          -0.78517089          -0.67741432  
+##         -0.66636254          -0.78526177          -0.67768399  
 ## as.factor(year)2015   as.factor(coi)TRUE  
-##         -0.82580873           0.00910202  
+##         -0.88180587           0.00899117  
 ## 
-## Degrees of Freedom: 2939 Total (i.e. Null);  2926 Residual
-## Null Deviance:	    18390 
-## Residual Deviance: 14740 	AIC: NA
+## Degrees of Freedom: 2998 Total (i.e. Null);  2985 Residual
+## Null Deviance:	    19130 
+## Residual Deviance: 15300 	AIC: NA
 ```
 
 ```r
@@ -1056,7 +1051,7 @@ p1 <- ggplot(plotdf, aes(x = years, y = revdays, colour = data.journal, group = 
 p2 <- ggplot(plotdf, aes(x = years, y = proddays, colour = data.journal, group = data.journal)) +
   geom_point(aes(col = data.journal)) + 
   stat_smooth(method = "lm", se = FALSE) + 
-  labs(list(x = "Year", y = "Estimated mean review days")) + 
+  labs(list(x = "Year", y = "Estimated mean production days")) + 
   xlim(c(2003, 2015)) + 
   ylim(c(0, 225)) + 
   theme(legend.position = "top") +
