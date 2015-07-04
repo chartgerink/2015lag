@@ -269,7 +269,7 @@ for(journal in unique(x$data.journal)){
   print((review_process))
   
   writeClipboard(as.character(review_process$coefficients))
-  readline(sprintf('Copy paste the review time for %s', journal))
+  readline(sprintf('Copy paste the review time for %s, minimun year %s', journal, min(sel$year)))
   
   # Calculating the estimated days of review in the model
   reviewdays <- exp(review_process$coefficients[1])
@@ -293,7 +293,7 @@ for(journal in unique(x$data.journal)){
   print((production_process))
   
   writeClipboard(as.character(production_process$coefficients))
-  readline(sprintf('Copy paste the production time for %s', journal))
+  readline(sprintf('Copy paste the production time for %s, minimum year %s', journal, min(sel$year)))
     
   # Calculating the estimates per year
   productiondays <- exp(production_process$coefficients[1])
